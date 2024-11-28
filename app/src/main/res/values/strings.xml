@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Android 101</string>
+    <string name="birthday_person">Persona con gorra random (application wide) - changed</string>
+    <string name="birthday_message">Random message I would like to have application wide</string>
 </resources>

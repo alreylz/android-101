@@ -11,5 +11,6 @@ So far:
   - @Composable functions
   - Previewing Components / @Composable functions
   - Basic building blocks `Box`, `Row`, `Column` , `Text`
-  - Using images in Jetpack compose
+  - Using Images in Jetpack compose
+  - Extracting application wide Strings as resources and into de res/values folder
   - Starting up with `Modifiers` (argumentos para decorar y dar funcionalidad a componentes )

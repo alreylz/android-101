@@ -40,7 +40,8 @@ class ImagesActivity : ComponentActivity() {
 
 
                 Box {
-                    Image(painter = bgImage, "background of party")
+                    Image(painter = bgImage, "background of party",
+                        alpha=0.5F)
                     ImageBirthdayCard(
                         "Persona con gorra random",
                         27,
@@ -126,7 +127,7 @@ fun ShowCodePreviewImages() {
     Android101Theme {
         val bgImage = painterResource(androidparty);
         Box {
-            Image(painter = bgImage, "background of party")
+            Image(painter = bgImage, "background of party", alpha=0.5F)
             ImageBirthdayCard(
                 "Persona con gorra random",
                 27,
