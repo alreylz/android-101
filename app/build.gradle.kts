@@ -1,7 +1,11 @@
+import org.jetbrains.dokka.gradle.DokkaTask
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    // Added to support generation of docs
+    id("org.jetbrains.dokka")
 }
 
 android {
@@ -56,4 +60,66 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
+}
+
+
+
+// https://kotlinlang.org/docs/dokka-html.html#configuration-options
+//Configuration goes here
+tasks.withType<DokkaTask>().configureEach {
+
+
+    val appName = "Android 101";
+    val author = "@alreylz";
+
+    doFirst {
+        println("Creating documentation for ${appName}  [@alreylz] \n---------------------------------------------------")
+    }
+
+
+    //This is the directory
+    outputDirectory.set(file("$rootDir/documentation")) // Set to root directory or any custom location
+
+
+    val dokkaBaseConfiguration = """
+    {
+     "projectVersion": "1.0.0",
+     "navigationRoot": "My Awesome Project",
+     "footerMessage": "(c) 2024 ${author}",
+     "separateInheritedMembers": false,
+     "mergeImplicitExpectActualDeclarations": false,
+     "customAssets": ["${file("$rootDir/.docs-config/assets/logo-icon.svg")}"],
+     "customStyleSheets": [
+        "${file("$rootDir/.docs-config/assets/style/my-customizations.css")}",
+        "${file("$rootDir/.docs-config/assets/style/my-logo-styles.css")}",
+        "${file("$rootDir/.docs-config/assets/style/my-styles.css")}"
+     ],
+      "reportUndocumented": true,
+      "title": "${appName}",
+      "projectVersion": "1.0.0"
+    }
+    """
+    //"templatesDir": "${file("$rootDir/.docs-config/templates")}",
+
+    pluginsMapConfiguration.set(
+        mapOf(
+            // fully qualified plugin name to json configuration
+            "org.jetbrains.dokka.base.DokkaBase" to dokkaBaseConfiguration
+        )
+    )
+
+
+    // Configure other options if necessary
+    dokkaSourceSets {
+        configureEach {
+            includeNonPublic.set(false)
+            reportUndocumented.set(true)
+        }
+    }
+
+    // Optional: Print the output directory
+    doLast {
+        println("Dokka HTML documentation generated in: ${outputDirectory.get()}")
+    }
 }

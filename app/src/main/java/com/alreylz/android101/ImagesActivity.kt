@@ -72,6 +72,9 @@ fun ImageBirthdayCard(
     ) {
         val avatarImage = painterResource(thispersondoesnotexist);
 
+
+
+
         Text(
             "${name} ",
             color = Color.Blue,

@@ -40,7 +40,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 /**
- * Practice
+ * Practice Dice Roller
+ * Hola
  */
 class DiceRoller : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,4 +111,13 @@ fun DiceRollerPreview() {
                 .wrapContentSize(Alignment.Center)
         );
     }
+}
+
+/**
+ * This is a function that I want to document with a sample.
+ *
+ * @sample some.project.TheSamples.helloWorldSample
+ */
+fun getHelloWorld() {
+    // Do stuff
 }
