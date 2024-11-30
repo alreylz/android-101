@@ -78,8 +78,8 @@ tasks.withType<DokkaTask>().configureEach {
     }
 
 
-    //This is the directory
-    outputDirectory.set(file("$rootDir/documentation")) // Set to root directory or any custom location
+    // The following sets the directory (WORKING)
+    outputDirectory.set(file("$rootDir/docs")) // Set to root directory or any custom location
 
 
     val dokkaBaseConfiguration = """
@@ -96,8 +96,7 @@ tasks.withType<DokkaTask>().configureEach {
         "${file("$rootDir/.docs-config/assets/style/my-styles.css")}"
      ],
       "reportUndocumented": true,
-      "title": "${appName}",
-      "projectVersion": "1.0.0"
+      "title": "${appName}"
     }
     """
     //"templatesDir": "${file("$rootDir/.docs-config/templates")}",

@@ -15,3 +15,9 @@ So far:
   - Extracting application wide Strings as resources and into de res/values folder.
   - First "interactive" Composable (see DiceRoller.kt)
   - Starting up with `Modifiers` (argumentos para decorar y dar funcionalidad a componentes )
+  - Added auto documentation. Generating in [Docs](docs/index.html)
+
+
+# Generating the documentation
+
+`./gradlew dokkaHtml --no-build-cache --rerun-tasks`
