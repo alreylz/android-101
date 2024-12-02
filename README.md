@@ -18,6 +18,10 @@ So far:
   - Added auto documentation. Generating in [Docs](docs/index.html)
   - Created `ComposablesReference.kt` which is aimed to have a summary of the most important @Composable functions readily available as reference (e.g., Text, Spacer, Surface, InputText, TextField)
   - Created `TipCalculator` a super simple application showcasing Composability and State use at different levels.
+    - Implemented extension of `TipCalculator` to make things tip percentage configurable and possibility to round the amount.
+    - Introduced a @Composable function `Switch` to implement the toggle functionality for Rounding the amount.
+    - Added scrollbar to support landscape mode.
+  
 
 
 # Generating the documentation

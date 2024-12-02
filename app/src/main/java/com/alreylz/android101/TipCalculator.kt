@@ -9,11 +9,16 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -25,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -58,6 +64,10 @@ class TipCalculator() : ComponentActivity() {
 @Preview(
     showBackground = true, showSystemUi = true
 )
+@Preview(
+    showBackground = true, showSystemUi = true,
+    device = "spec:width=411dp,height=891dp,dpi=420,isRound=false,chinSize=0dp,orientation=landscape"
+)
 fun FormPreview() {
     Android101Theme {
         MyForm(
@@ -74,12 +84,19 @@ fun MyForm(modifier: Modifier = Modifier) {
 
     // States
     var billAmountInput by remember { mutableStateOf("") }
+    var tipPercentInput by remember { mutableStateOf("15") }
+    var shouldRoundInput by remember { mutableStateOf(false) }
+
 
     val billAmount = billAmountInput.toDoubleOrNull() ?: 0.0;
+    val tipPercent = tipPercentInput.toDoubleOrNull() ?: 0.0;
+    val computedTip = calculateTip(billAmount, tipPercent);
 
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .padding(15.dp)
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -92,19 +109,57 @@ fun MyForm(modifier: Modifier = Modifier) {
         Spacer(modifier = Modifier.padding(12.dp))
 
         /* My composable component */
-        MyNumberInputField(
+        MyNumberInputFieldWithIcon(
             value = billAmountInput,
-            onValueChange = { nuValue -> billAmountInput = nuValue }
+            onValueChange = { nuValue -> billAmountInput = nuValue },
+            label = "Bill Amount",
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next /* Note how this action will make the cursor go to the next field */
+            )
         )
         Spacer(modifier = Modifier.padding(12.dp))
+
+        /* Tip Percentage */
+        MyNumberInputFieldWithIcon(
+            value = tipPercentInput,
+            onValueChange = { nuValue -> tipPercentInput = nuValue },
+            label = "Tip Percentage",
+            keyboardOptions = KeyboardOptions.Default.copy(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Send
+            )
+        )
+
+
+        /* Toggle to round up */
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 50.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("Round up trip?")
+
+            Switch(
+                checked = shouldRoundInput,
+                enabled = true,
+                onCheckedChange = { toggled -> shouldRoundInput = toggled })
+        }
+
+
+        Spacer(modifier = Modifier.padding(100.dp))
+
         Text(
-            text = "Tip amount.${calculateTip(billAmount, 15.0)} $ ",
+            text = "Tip amount.${calculateTip(billAmount, tipPercent, shouldRoundInput)} $ ",
             fontSize = 8.em,
             textAlign = TextAlign.Center,
             lineHeight =
             1.em,
             color = "#efc44d".color
         )
+
 
     }
 
@@ -140,16 +195,48 @@ private fun MyNumberInputField(
 
 }
 
+@Composable
+private fun MyNumberInputFieldWithIcon(
+    value: String,
+    modifier: Modifier = Modifier,
+    label: String? = "Numeric input field",
+    onValueChange: (String) -> Unit,
+    keyboardOptions: KeyboardOptions?
+) {
+
+    TextField(
+        value = value,
+        singleLine = true,
+        onValueChange = onValueChange,
+        /* Show only numeric keyboard */
+        keyboardOptions = keyboardOptions ?: KeyboardOptions.Default.copy(
+            keyboardType = KeyboardType.Number,
+            imeAction = ImeAction.Next
+        ),
+        modifier = modifier.padding(2.dp),
+        /*Optionally allow for changing the label*/
+        label = { if (label != null) Text("$label :") }
+    )
+
+
+}
+
 
 /***
  * Calculates a tip amount based on a base amount being paid
  * @param amount Total amount of money paid from which the tip will be calculated
  * @param tipPercent Percent of tip to apply
+ * @param roundUp if set to true, rounds the value up (nearest up integer)
  * @author alreylz
  * @return calculated tip
  */
-private fun calculateTip(amount: Double, tipPercent: Double = 15.0): String {
-    val tip = tipPercent / 100 * amount
+private fun calculateTip(
+    amount: Double,
+    tipPercent: Double = 15.0,
+    roundUp: Boolean = false
+): String {
+    var tip = tipPercent / 100 * amount
+    if (roundUp) tip = kotlin.math.ceil(tip)
     return NumberFormat.getCurrencyInstance().format(tip)
 }
 
