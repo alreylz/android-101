@@ -31,6 +31,13 @@ So far:
 
 
 # Showcase
+
+## Images 
 ![ImagesActivity.png](.github-media/ImagesActivity.png)
+
+## Dice Roller
 ![DiceRoller.gif](.github-media/DiceRoller.gif)
+
+
+## Tip Calculator
 ![TipCalculator.gif](.github-media/TipCalculator.gif)
