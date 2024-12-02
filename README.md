@@ -31,5 +31,6 @@ So far:
 
 
 # Showcase
-
-![TipCalculator.png](.github-media/TipCalculator.png)
+![ImagesActivity.png](.github-media/ImagesActivity.png)
+![DiceRoller.gif](.github-media/DiceRoller.gif)
+![TipCalculator.gif](.github-media/TipCalculator.gif)
