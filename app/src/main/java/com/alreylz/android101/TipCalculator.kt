@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -29,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -113,6 +116,7 @@ fun MyForm(modifier: Modifier = Modifier) {
             value = billAmountInput,
             onValueChange = { nuValue -> billAmountInput = nuValue },
             label = "Bill Amount",
+            leadingIcon = R.drawable.money,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next /* Note how this action will make the cursor go to the next field */
@@ -125,6 +129,7 @@ fun MyForm(modifier: Modifier = Modifier) {
             value = tipPercentInput,
             onValueChange = { nuValue -> tipPercentInput = nuValue },
             label = "Tip Percentage",
+            leadingIcon = R.drawable.percent,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Send
@@ -171,6 +176,7 @@ fun MyForm(modifier: Modifier = Modifier) {
  * @param value the mutable value to show initially and alter later on user input
  * @param modifier allows further customization of how things look
  * @param label optional label for the field
+ *
  * @param onValueChange function to execute when the field input changes (e.g., updating the value)
  */
 @Composable
@@ -195,24 +201,31 @@ private fun MyNumberInputField(
 
 }
 
+
 @Composable
 private fun MyNumberInputFieldWithIcon(
     value: String,
     modifier: Modifier = Modifier,
+    @DrawableRes leadingIcon: Int? = null,
     label: String? = "Numeric input field",
     onValueChange: (String) -> Unit,
     keyboardOptions: KeyboardOptions?
 ) {
-
     TextField(
         value = value,
         singleLine = true,
         onValueChange = onValueChange,
+        leadingIcon = {
+            if (leadingIcon != null) {
+                Icon(painter = painterResource(id = leadingIcon), "side-icon")
+            }
+        },
         /* Show only numeric keyboard */
         keyboardOptions = keyboardOptions ?: KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Number,
             imeAction = ImeAction.Next
         ),
+
         modifier = modifier.padding(2.dp),
         /*Optionally allow for changing the label*/
         label = { if (label != null) Text("$label :") }
