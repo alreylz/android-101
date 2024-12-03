@@ -22,7 +22,7 @@ So far:
     - Introduced a @Composable function `Switch` to implement the toggle functionality for Rounding the amount.
     - Added scrollbar to support landscape mode.
   
-
+- Basics of testing 
 
 # Generating the documentation
 
