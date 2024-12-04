@@ -22,7 +22,9 @@ So far:
     - Introduced a @Composable function `Switch` to implement the toggle functionality for Rounding the amount.
     - Added scrollbar to support landscape mode.
   
-- Basics of testing 
+- Basics of testing: 
+  - Unit tests go in the `/app/test/...package name dir` : are run locally without extra hassle
+  - Instrumentation / UI tests go in the `app/androidTest/...package name dir` : these generate a build and run the app
 
 # Generating the documentation
 

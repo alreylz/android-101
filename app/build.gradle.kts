@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -61,12 +62,22 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.9.20")
+    implementation("androidx.test.espresso:espresso-core:3.5.0")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.0")
+
+}
+
+
+configurations.all {
+    resolutionStrategy {
+        force("androidx.test.espresso:espresso-core:3.5.0")
+    }
 }
 
 
 
 // https://kotlinlang.org/docs/dokka-html.html#configuration-options
-//Configuration goes here
+// Dokka Configuration goes here
 tasks.withType<DokkaTask>().configureEach {
 
 
@@ -85,7 +96,7 @@ tasks.withType<DokkaTask>().configureEach {
     val dokkaBaseConfiguration = """
     {
      "projectVersion": "1.0.0",
-     "navigationRoot": "My Awesome Project",
+     "navigationRoot": "alreylz Android 101",
      "footerMessage": "(c) 2024 ${author}",
      "separateInheritedMembers": false,
      "mergeImplicitExpectActualDeclarations": false,
